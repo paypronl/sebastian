@@ -1,5 +1,8 @@
 # Sebastian
 
+[![Version](https://badge.fury.io/rb/sebastian.svg)](https://rubygems.org/gems/sebastian)
+[![circleci](https://circleci.com/gh/paypronl/sebastian/tree/master.svg?style=shield&circle-token=2bde3711c161ef65a75da7a41385d5958253d05b)](https://circleci.com/gh/paypronl/sebastian)
+
 Sebastian makes it easy for you to have service objects in Ruby. It gives you a place to put your business logic.
 It also helps you write safer code by validating that your inputs conform to your expectations.
 
