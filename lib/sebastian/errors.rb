@@ -8,5 +8,5 @@ module Sebastian
   NotImplementedError = Class.new(Error)
 
   # Raised if value is called while there are errors.
-  ServiceReturnedErrorsError = Class.new(Error)
+  ResultHasErrorsError = Class.new(Error)
 end

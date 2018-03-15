@@ -2,6 +2,7 @@
 
 require 'active_model'
 
+# Demon Butler
 module Sebastian
 end
 

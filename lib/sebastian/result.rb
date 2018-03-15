@@ -30,7 +30,7 @@ module Sebastian
     def value
       return @value if ok?
       raise(
-        ServiceReturnedErrorsError,
+        ResultHasErrorsError,
         'Cannot call value while the service has errors, you should call #ok? first to check'
       )
     end

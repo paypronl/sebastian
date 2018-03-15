@@ -10,7 +10,7 @@ RSpec.describe Sebastian::Result do
 
     context 'when errors' do
       let(:errors) { [123] }
-      it { expect { subject }.to raise_error(Sebastian::ServiceReturnedErrorsError) }
+      it { expect { subject }.to raise_error(Sebastian::ResultHasErrorsError) }
     end
 
     context 'when ok' do

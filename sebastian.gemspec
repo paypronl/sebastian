@@ -9,7 +9,7 @@ Gem::Specification.new do |gem|
   gem.authors  = ['Sander Tuin']
   gem.email    = ['sander@paypro.nl']
 
-  gem.summary  = 'Small but powerful service objects/service layers library.'
+  gem.summary  = 'Your personal demon butler at your services.'
   gem.homepage = 'https://github.com/paypronl/sebastian'
   gem.license  = 'MIT'
 

@@ -1,28 +1,83 @@
 # Sebastian
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/sebastian`. To experiment with that code, run `bin/console` for an interactive prompt.
+Sebastian makes it easy for you to have service objects in Ruby. It gives you a place to put your business logic.
+It also helps you write safer code by validating that your inputs conform to your expectations.
 
-TODO: Delete this and the text above, and describe your gem
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this line to your Gemfile:
 
 ```ruby
 gem 'sebastian'
 ```
 
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install sebastian
-
+Or install it manually:
+```
+$ gem install sebastian
+```
 ## Usage
 
-TODO: Write usage instructions here
+To define a service object, create a subclass of Sebastian::Base. Then you need to do two things:
+
+1. **Define your attributes.**
+2. **Define your business logic.** Do this by implementing the #execute method. Each attribute you defined will be available. If any of the attributes are invalid, `#execute` won't be run.
+
+That covers the basics. Let's put it all together into a simple example that squares a number.
+
+```ruby
+class CreatePayment < Sebastian::Base
+  attr_accessor :amount
+  attr_accessor :email
+
+  validates :amount, numericality: { only_integer: true }
+
+  private
+
+  def execute
+    'payment_created' if create_payment
+    errors.add(:payment)
+  end
+
+  def create_payment
+    Payment.create!(customer: create_customer, amount: amount)
+  end
+
+  def create_customer
+    Customer.create!(email: email)
+  end
+end
+```
+
+Call `.perform` on your service to execute it. You must pass a single hash to `.perform`. It will return an instance of your service. By convention, we call this an result. You can use the `#ok?` method to ask the result if it's ok. If it's not ok, take a look at its errors with `#errors`. When `#ok?`, the value returned from `#execute` will be stored in `#value`.
+
+```ruby
+result = CreatePayment.perform(email: 'ciel@phantomhive.com', amount: 500)
+result.ok?
+# => true
+result.value
+# => "payment_created"
+
+result = CreatePayment.perform(amount: 500)
+result.ok?
+# => false
+result.errors.messages
+# => {:payment=>["is not a valid"]}
+result.value
+# => Sebastian::ResultHasErrorsError: Cannot call value while the service has errors, you should call #ok? first to check
+```
+
+### Validations
+
+These validations aren't provided by Sebastian. They're from ActiveModel. You can also use any custom validations you wrote yourself in your services.
+
+```ruby
+result = CreatePayment.perform(email: 'ciel@phantomhive.com', amount: '5,00')
+result.ok?
+# => false
+result.errors.messages
+# => {:amount=>["is not a number"]}
+```
 
 ## Development
 
@@ -32,7 +87,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/sebastian.
+Bug reports and pull requests are welcome on GitHub at https://github.com/paypronl/sebastian.
 
 ## License
 
