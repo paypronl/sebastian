@@ -4,21 +4,10 @@ defaults: &defaults
   steps:
     - checkout
 
-    - restore_cache:
-        keys:
-          - gem-cache-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "Gemfile.lock" }}
-          - gem-cache-{{ .Branch }}
-          - gem-cache
-
     - run:
         name: install dependencies
         command: |
           bundle install --jobs=4 --retry=3 --path vendor/bundle
-
-    - save_cache:
-        key: gem-cache-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "Gemfile.lock" }}
-        paths:
-          - vendor/bundle
 
     - run:
         name: run rubocop
