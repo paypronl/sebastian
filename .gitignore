@@ -14,3 +14,6 @@ Gemfile.lock
 
 # OSX
 .DS_Store
+
+# builds
+*.gem
