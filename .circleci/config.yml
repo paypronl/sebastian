@@ -46,20 +46,20 @@ jobs:
     docker:
       - image: circleci/ruby:2.5.0
 
-  build-ruby-2.4.1:
+  build-ruby-2.4.3:
     <<: *defaults
     docker:
-      - image: circleci/ruby:2.4.1
+      - image: circleci/ruby:2.4.3
 
-  build-ruby-2.3.3:
+  build-ruby-2.3.6:
     <<: *defaults
     docker:
-      - image: circleci/ruby:2.3.3
+      - image: circleci/ruby:2.3.6
 
-  build-ruby-2.2.7:
+  build-ruby-2.2.9:
     <<: *defaults
     docker:
-      - image: circleci/ruby:2.2.7
+      - image: circleci/ruby:2.2.9
 
 workflows:
   version: 2
