@@ -11,3 +11,4 @@ require 'sebastian/errors'
 
 require 'sebastian/result'
 require 'sebastian/base'
+require 'sebastian/validation'

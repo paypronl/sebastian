@@ -17,3 +17,9 @@ class DummyErrorBase < Sebastian::Base
     errors.add(:foo)
   end
 end
+
+class DummyValidation < Sebastian::Validation
+  attr_accessor :foo
+
+  validates :foo, presence: true
+end
