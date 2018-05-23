@@ -75,12 +75,21 @@ result.value
 These validations aren't provided by Sebastian. They're from ActiveModel. You can also use any custom validations you wrote yourself in your services.
 
 ```ruby
-result = CreatePayment.perform(email: 'ciel@phantomhive.com', amount: '5,00')
+class PaymentValidator < Sebastian::Validation
+  attr_accessor :amount
+  attr_accessor :email
+
+  validates :amount, presence: true
+end
+
+result = CreatePayment.perform(email: 'ciel@phantomhive.com', amount: nil)
 result.ok?
 # => false
 result.errors.messages
-# => {:amount=>["is not a number"]}
+# => {:amount=>["can't be blank"]}
 ```
+
+
 
 ## Development
 
