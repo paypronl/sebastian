@@ -30,8 +30,8 @@ That covers the basics. Let's put it all together into a simple example that squ
 
 ```ruby
 class CreatePayment < Sebastian::Base
-  param :amount
-  param :email
+  attribute :amount
+  attribute :email
 
   validates :amount, numericality: { only_integer: true }
 
@@ -85,7 +85,7 @@ These validations aren't provided by Sebastian. They're from ActiveModel. You ca
 
 ```ruby
 class ValidatePayment < Sebastian::Validation
-  params :amount, :email
+  attributes :amount, :email
 
   validates :email, presence: true
   validates :amount, numericality: { only_integer: true }
