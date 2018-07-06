@@ -26,20 +26,20 @@ module Sebastian
     extend ActiveModel::Translation
 
     class << self
-      def perform(params = {})
-        new(params).perform
+      def perform(attributes = {})
+        new(attributes).perform
       end
 
-      def perform!(params = {})
-        new(params).perform!
+      def perform!(attributes = {})
+        new(attributes).perform!
       end
 
-      alias params attr_accessor
-      alias param params
+      alias attributes attr_accessor
+      alias attribute attributes
     end
 
-    def initialize(params = {})
-      assign_attributes(params)
+    def initialize(attributes = {})
+      assign_attributes(attributes)
     end
 
     def perform

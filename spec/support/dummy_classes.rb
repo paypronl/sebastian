@@ -1,9 +1,9 @@
 class DummyBase < Sebastian::Base
-  param :foo
+  attribute :foo
 end
 
 class DummyExecuteBase < Sebastian::Base
-  param :foo
+  attribute :foo
 
   def execute
     123
@@ -11,7 +11,7 @@ class DummyExecuteBase < Sebastian::Base
 end
 
 class DummyErrorBase < Sebastian::Base
-  param :foo
+  attribute :foo
 
   def execute
     errors.add(:foo)
@@ -19,7 +19,7 @@ class DummyErrorBase < Sebastian::Base
 end
 
 class DummyValidation < Sebastian::Validation
-  param :foo
+  attribute :foo
 
   validates :foo, presence: true
 end
