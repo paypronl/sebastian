@@ -29,6 +29,10 @@ module Sebastian
       def perform(params = {})
         new(params).perform
       end
+
+      def perform!(params = {})
+        new(params).perform!
+      end
     end
 
     def initialize(params = {})
@@ -37,6 +41,10 @@ module Sebastian
 
     def perform
       Result.new(value: valid? ? execute : nil, errors: errors)
+    end
+
+    def perform!
+      perform.value!
     end
 
     protected
