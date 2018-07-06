@@ -30,8 +30,8 @@ That covers the basics. Let's put it all together into a simple example that squ
 
 ```ruby
 class CreatePayment < Sebastian::Base
-  attr_accessor :amount
-  attr_accessor :email
+  param :amount
+  param :email
 
   validates :amount, numericality: { only_integer: true }
 
@@ -43,11 +43,11 @@ class CreatePayment < Sebastian::Base
   end
 
   def create_payment
-    Payment.create!(customer: create_customer, amount: amount)
+    Payment.create(customer: create_customer, amount: amount)
   end
 
   def create_customer
-    Customer.create!(email: email)
+    Customer.create(email: email)
   end
 end
 ```
@@ -66,8 +66,17 @@ result.ok?
 # => false
 result.errors.messages
 # => {:payment=>["is not a valid"]}
-result.value
-# => Sebastian::ResultHasErrorsError: Cannot call value while the service has errors, you should call #ok? first to check
+result.value!
+# => Sebastian::InvalidResultError: Payment is not valid
+```
+
+You can also use `.perform!` to execute. It's like `.perform` but more dangerous. It doesn't return an result. If the result would be invalid, it will instead raise an error. But if the result would be valid, it simply returns the value.
+
+```ruby
+CreatePayment.perform!(email: 'ciel@phantomhive.com', amount: 500)
+# => "payment_created"
+CreatePayment.perform!(amount: 500)
+# =>
 ```
 
 ### Validations
@@ -75,21 +84,23 @@ result.value
 These validations aren't provided by Sebastian. They're from ActiveModel. You can also use any custom validations you wrote yourself in your services.
 
 ```ruby
-class PaymentValidator < Sebastian::Validation
-  attr_accessor :amount
-  attr_accessor :email
+class ValidatePayment < Sebastian::Validation
+  params :amount, :email
 
-  validates :amount, presence: true
+  validates :email, presence: true
+  validates :amount, numericality: { only_integer: true }
 end
+```
 
-result = CreatePayment.perform(email: 'ciel@phantomhive.com', amount: nil)
+This works the same as `Sebastian::Base` except that it is not needed to specify `#execute`.
+
+```ruby
+result = ValidatePayment.perform(amount: '5,00')
 result.ok?
 # => false
 result.errors.messages
-# => {:amount=>["can't be blank"]}
+# => {{:email=>["can't be blank"], :amount=>["is not a number"]}
 ```
-
-
 
 ## Development
 
