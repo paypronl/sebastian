@@ -13,10 +13,10 @@ module Sebastian
   #   result = Sebastian::Result.new(value: 'foo', errors: ['bar'])
   #   result.ok?
   #     # => false
-  #   result.value
+  #   result.value!
   #     # => Sebastian::ServiceReturnedErrorsError
   class Result
-    attr_reader :errors
+    attr_reader :errors, :value
 
     def initialize(value:, errors:)
       @value = value
@@ -27,12 +27,9 @@ module Sebastian
       @errors.empty?
     end
 
-    def value
+    def value!
       return @value if ok?
-      raise(
-        ResultHasErrorsError,
-        'Cannot call value while the service has errors, you should call #ok? first to check'
-      )
+      raise InvalidResultError, errors.full_messages.join(', ')
     end
 
     def to_s

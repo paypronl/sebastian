@@ -5,12 +5,14 @@ RSpec.describe Sebastian::Result do
   let(:value) { nil }
   let(:errors) { [] }
 
-  describe '#value' do
-    subject { klass.value }
+  describe '#value!' do
+    subject { klass.value! }
 
     context 'when errors' do
-      let(:errors) { [123] }
-      it { expect { subject }.to raise_error(Sebastian::ResultHasErrorsError) }
+      before { allow(klass.errors).to receive(:full_messages) { [123, 456] } }
+
+      let(:errors) { [123, 456] }
+      it { expect { subject }.to raise_error(Sebastian::InvalidResultError, '123, 456') }
     end
 
     context 'when ok' do
