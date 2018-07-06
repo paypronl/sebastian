@@ -76,7 +76,7 @@ You can also use `.perform!` to execute. It's like `.perform` but more dangerous
 CreatePayment.perform!(email: 'ciel@phantomhive.com', amount: 500)
 # => "payment_created"
 CreatePayment.perform!(amount: 500)
-# =>
+# => Sebastian::InvalidResultError: Payment is not valid
 ```
 
 ### Validations
