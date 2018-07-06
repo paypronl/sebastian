@@ -33,6 +33,9 @@ module Sebastian
       def perform!(params = {})
         new(params).perform!
       end
+
+      alias params attr_accessor
+      alias param params
     end
 
     def initialize(params = {})
